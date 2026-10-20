@@ -4100,3 +4100,11 @@ lighting	Light	光源
 @id	ui.brightness.medium_dark	中深色
 @id	ui.brightness.medium_light	中淺色
 @id	ui.brightness.light	淺色
+@id	ui.scheme.modern	現代
+@id	ui.scheme.classic	經典
+@id	ui.accent.coral	珊瑚色
+@id	ui.accent.blue	藍色
+@id	ui.accent.violet	紫羅蘭色
+@id	ui.accent.green	綠色
+@id	ui.accent.amber	琥珀色
+@id	ui.accent.pink	粉紅色

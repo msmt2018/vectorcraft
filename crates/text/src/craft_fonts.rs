@@ -129,6 +129,9 @@ mod tests {
             font("Georgian", "Regular", &["Geor"]),
             font("Latin", "Regular", &["Latn"]),
         ];
+        assert!(fonts[0].is_chinese());
+        assert!(fonts[5].is_chinese());
+        assert!(!fonts[2].is_chinese());
         let ordered: Vec<_> = document_fonts_from(&fonts).into_iter().map(|f| (f.family, f.style)).collect();
         assert_eq!(
             ordered,

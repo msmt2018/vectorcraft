@@ -4094,3 +4094,17 @@ lighting	Light	光源
 	Minimum must not exceed Desired, nor Desired Maximum.	最小值不可超過所需值，所需值不可超過最大值。
 	Minimum	最小值
 	Justification	對齊設定
+
+# Stable UI identifiers (labels can change without invalidating the lookup).
+@id	ui.brightness.dark	深色
+@id	ui.brightness.medium_dark	中深色
+@id	ui.brightness.medium_light	中淺色
+@id	ui.brightness.light	淺色
+@id	ui.scheme.modern	現代
+@id	ui.scheme.classic	經典
+@id	ui.accent.coral	珊瑚色
+@id	ui.accent.blue	藍色
+@id	ui.accent.violet	紫羅蘭色
+@id	ui.accent.green	綠色
+@id	ui.accent.amber	琥珀色
+@id	ui.accent.pink	粉紅色

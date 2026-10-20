@@ -36,3 +36,4 @@ background | Reem Kufi | Regular
 background | Aref Ruqaa | Regular
 background | Aref Ruqaa | Bold
 background | Gulzar | Regular
+startup | Noto Sans CJK SC | Regular

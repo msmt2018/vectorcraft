@@ -2073,3 +2073,37 @@ fn japanese_names_the_default_swatches() {
     assert_eq!(ja.contextual("swatch", "White"), Some("ホワイト"));
     assert_eq!(ja.contextual("swatch", "My Red"), None);
 }
+
+#[test]
+fn stable_brightness_ids_are_present_in_both_chinese_catalogs() {
+    let cases = [
+        ("zh-hans", "ui.brightness.dark", "深色"),
+        ("zh-hans", "ui.brightness.medium_dark", "中深色"),
+        ("zh-hans", "ui.brightness.medium_light", "中浅色"),
+        ("zh-hans", "ui.brightness.light", "浅色"),
+        ("zh-hant", "ui.brightness.dark", "深色"),
+        ("zh-hant", "ui.brightness.medium_dark", "中深色"),
+        ("zh-hant", "ui.brightness.medium_light", "中淺色"),
+        ("zh-hant", "ui.brightness.light", "淺色"),
+        ("zh-hans", "ui.scheme.modern", "现代"),
+        ("zh-hans", "ui.scheme.classic", "经典"),
+        ("zh-hans", "ui.accent.coral", "珊瑚色"),
+        ("zh-hans", "ui.accent.blue", "蓝色"),
+        ("zh-hans", "ui.accent.violet", "紫罗兰色"),
+        ("zh-hans", "ui.accent.green", "绿色"),
+        ("zh-hans", "ui.accent.amber", "琥珀色"),
+        ("zh-hans", "ui.accent.pink", "粉色"),
+        ("zh-hant", "ui.scheme.modern", "現代"),
+        ("zh-hant", "ui.scheme.classic", "經典"),
+        ("zh-hant", "ui.accent.coral", "珊瑚色"),
+        ("zh-hant", "ui.accent.blue", "藍色"),
+        ("zh-hant", "ui.accent.violet", "紫羅蘭色"),
+        ("zh-hant", "ui.accent.green", "綠色"),
+        ("zh-hant", "ui.accent.amber", "琥珀色"),
+        ("zh-hant", "ui.accent.pink", "粉紅色"),
+    ];
+    for (language, id, expected) in cases {
+        let lang = Lang::from_code(language).expect("Chinese catalog registered");
+        assert_eq!(lang.catalog().id(id), Some(expected), "{language}: {id}");
+    }
+}

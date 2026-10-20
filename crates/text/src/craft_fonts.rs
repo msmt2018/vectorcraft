@@ -35,6 +35,10 @@ impl CraftFont {
     pub fn is_japanese(&self) -> bool {
         self.scripts.contains(&"Jpan")
     }
+    /// Is the font suitable for Chinese UI text?
+    pub fn is_chinese(&self) -> bool {
+        self.scripts.iter().any(|script| matches!(*script, "Hans" | "Hant" | "Hani"))
+    }
     /// Is the font for Arabic text?
     pub fn is_arabic(&self) -> bool {
         self.scripts.contains(&"Arab")
@@ -125,6 +129,9 @@ mod tests {
             font("Georgian", "Regular", &["Geor"]),
             font("Latin", "Regular", &["Latn"]),
         ];
+        assert!(fonts[0].is_chinese());
+        assert!(fonts[5].is_chinese());
+        assert!(!fonts[2].is_chinese());
         let ordered: Vec<_> = document_fonts_from(&fonts).into_iter().map(|f| (f.family, f.style)).collect();
         assert_eq!(
             ordered,
@@ -164,11 +171,12 @@ mod tests {
             assert!(name.ends_with(".ttf") || name.ends_with(".otf"), "{}", w.url);
             assert!(w.integrity.starts_with("sha256-") && w.integrity.len() == "sha256-".len() + 44, "{}", w.integrity);
         }
-        // The fallbacks the first frame may need: Noto Sans Arabic, Noto Sans Thai and Noto Sans
-        // Georgian, where the checkout has them.
+        // The fallbacks the first frame may need, including Chinese glyphs on the web.
         let startup: Vec<_> = WEB_FONTS.iter().filter(|w| w.startup).map(|w| w.family).collect();
-        let expected: Vec<_> =
-            ["Noto Sans Arabic", "Noto Sans Thai", "Noto Sans Georgian"].into_iter().filter(|n| CRAFT_FONTS.iter().any(|f| f.family == *n)).collect();
+        let expected: Vec<_> = ["Noto Sans CJK SC", "Noto Sans Arabic", "Noto Sans Thai", "Noto Sans Georgian"]
+            .into_iter()
+            .filter(|n| CRAFT_FONTS.iter().any(|f| f.family == *n))
+            .collect();
         assert_eq!(startup, expected);
     }
 }

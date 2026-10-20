@@ -391,6 +391,10 @@ fn choice_row(ui: &mut egui::Ui, d: &mut Dialog, key: &str, label: &str, opts: &
 /// Translate built-in appearance choices by stable ID; preserve all other engine-provided labels.
 fn choice_label<'a>(key: &str, value: &str, label: &'a str) -> &'a str {
     let id = match (key, value) {
+        ("uiBrightness", "dark") => "ui.brightness.dark",
+        ("uiBrightness", "mediumDark") => "ui.brightness.medium_dark",
+        ("uiBrightness", "mediumLight") => "ui.brightness.medium_light",
+        ("uiBrightness", "light") => "ui.brightness.light",
         ("uiColorScheme", "modern") => "ui.scheme.modern",
         ("uiColorScheme", "classic") => "ui.scheme.classic",
         ("uiAccent", "coral") => "ui.accent.coral",

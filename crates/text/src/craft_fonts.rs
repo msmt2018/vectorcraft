@@ -173,7 +173,7 @@ mod tests {
         }
         // The fallbacks the first frame may need, including Chinese glyphs on the web.
         let startup: Vec<_> = WEB_FONTS.iter().filter(|w| w.startup).map(|w| w.family).collect();
-        let expected: Vec<_> = ["Noto Sans Arabic", "Noto Sans Thai", "Noto Sans Georgian", "Noto Sans CJK SC"]
+        let expected: Vec<_> = ["Noto Sans CJK SC", "Noto Sans Arabic", "Noto Sans Thai", "Noto Sans Georgian"]
             .into_iter()
             .filter(|n| CRAFT_FONTS.iter().any(|f| f.family == *n))
             .collect();

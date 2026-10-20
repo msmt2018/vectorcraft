@@ -34,7 +34,17 @@ impl Brightness {
         }
     }
     pub fn parse(s: &str) -> Option<Self> {
-        Self::ALL.into_iter().find(|b| b.id().eq_ignore_ascii_case(s) || b.label().eq_ignore_ascii_case(s))
+        // Accept stable persisted IDs and legacy English labels even when the UI is localized.
+        Self::ALL.into_iter().find(|b| {
+            b.id().eq_ignore_ascii_case(s)
+                || b.label().eq_ignore_ascii_case(s)
+                || match b {
+                    Brightness::Dark => "Dark".eq_ignore_ascii_case(s),
+                    Brightness::MediumDark => "Medium Dark".eq_ignore_ascii_case(s),
+                    Brightness::MediumLight => "Medium Light".eq_ignore_ascii_case(s),
+                    Brightness::Light => "Light".eq_ignore_ascii_case(s),
+                }
+        })
     }
 }
 
@@ -532,17 +542,18 @@ pub(crate) fn craft_font_name(f: &vectorcraft_text::CraftFont) -> String {
     format!("craft-fonts {} {}", f.family, f.style)
 }
 
-/// The Japanese and Georgian craft-fonts faces (when built with `CRAFT_FONTS_DIR`) as fallbacks at
-/// the end of every family, after the app's own fonts and before the installed fonts `ui_fonts`
-/// adds: BIZ UDPGothic first (bold first in the semibold family), then the Mincho faces, then Noto
-/// Sans Georgian.
+/// The Japanese, Chinese and Georgian craft-fonts faces (when built with `CRAFT_FONTS_DIR`) as
+/// fallbacks at the end of every family, after the app's own fonts and before installed fonts
+/// `ui_fonts` adds. Noto Sans CJK SC supplies Chinese glyphs on desktop; web builds load it via
+/// `crates/text/web-fonts.txt` so it is not embedded in the wasm bundle.
 fn add_craft_fonts(fonts: &mut FontDefinitions) {
-    for f in vectorcraft_text::CRAFT_FONTS.iter().filter(|f| f.is_japanese() || f.is_georgian()) {
+    for f in vectorcraft_text::CRAFT_FONTS.iter().filter(|f| f.is_japanese() || f.is_chinese() || f.is_georgian()) {
         fonts.font_data.insert(craft_font_name(f), Arc::new(FontData::from_static(f.bytes)));
     }
     for (family, stack) in fonts.families.iter_mut() {
         let bold = *family == FontFamily::Name(FONT_UI_SEMIBOLD.into());
         stack.extend(vectorcraft_text::craft_fonts::japanese_ui_fonts(bold).into_iter().map(craft_font_name));
+        stack.extend(vectorcraft_text::CRAFT_FONTS.iter().filter(|f| f.is_chinese()).map(craft_font_name));
         stack.extend(vectorcraft_text::craft_fonts::georgian_ui_fonts().into_iter().map(craft_font_name));
     }
 }

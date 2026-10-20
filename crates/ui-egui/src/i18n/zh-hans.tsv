@@ -5047,3 +5047,11 @@ lighting	Light	光源
 @id	ui.brightness.medium_dark	中深色
 @id	ui.brightness.medium_light	中浅色
 @id	ui.brightness.light	浅色
+@id	ui.scheme.modern	现代
+@id	ui.scheme.classic	经典
+@id	ui.accent.coral	珊瑚色
+@id	ui.accent.blue	蓝色
+@id	ui.accent.violet	紫罗兰色
+@id	ui.accent.green	绿色
+@id	ui.accent.amber	琥珀色
+@id	ui.accent.pink	粉色

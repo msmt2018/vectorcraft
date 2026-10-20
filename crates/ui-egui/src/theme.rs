@@ -16,12 +16,13 @@ pub enum Brightness {
 
 impl Brightness {
     pub const ALL: [Brightness; 4] = [Brightness::Dark, Brightness::MediumDark, Brightness::MediumLight, Brightness::Light];
+    /// Localized display label. The stable catalog key is independent of the English wording.
     pub fn label(self) -> &'static str {
         match self {
-            Brightness::Dark => "Dark",
-            Brightness::MediumDark => "Medium Dark",
-            Brightness::MediumLight => "Medium Light",
-            Brightness::Light => "Light",
+            Brightness::Dark => crate::i18n::t_id("ui.brightness.dark", "Dark"),
+            Brightness::MediumDark => crate::i18n::t_id("ui.brightness.medium_dark", "Medium Dark"),
+            Brightness::MediumLight => crate::i18n::t_id("ui.brightness.medium_light", "Medium Light"),
+            Brightness::Light => crate::i18n::t_id("ui.brightness.light", "Light"),
         }
     }
     pub fn id(self) -> &'static str {

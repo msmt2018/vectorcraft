@@ -35,6 +35,10 @@ impl CraftFont {
     pub fn is_japanese(&self) -> bool {
         self.scripts.contains(&"Jpan")
     }
+    /// Is the font suitable for Chinese UI text?
+    pub fn is_chinese(&self) -> bool {
+        self.scripts.iter().any(|script| matches!(*script, "Hans" | "Hant" | "Hani"))
+    }
     /// Is the font for Arabic text?
     pub fn is_arabic(&self) -> bool {
         self.scripts.contains(&"Arab")

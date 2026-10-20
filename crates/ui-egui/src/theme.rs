@@ -620,6 +620,9 @@ mod tests {
             assert_eq!(Brightness::parse(b.id()), Some(b));
             assert_eq!(Brightness::parse(b.label()), Some(b));
         }
+        // Older preference files may contain English labels, even with a Chinese UI selected.
+        assert_eq!(Brightness::parse("Medium Dark"), Some(Brightness::MediumDark));
+        assert_eq!(Brightness::parse("Medium Light"), Some(Brightness::MediumLight));
         assert!(!Tokens::for_brightness(Brightness::Light).dark);
     }
 

@@ -378,14 +378,30 @@ fn picas_in_use(d: &Dialog) -> bool {
 fn choice_row(ui: &mut egui::Ui, d: &mut Dialog, key: &str, label: &str, opts: &[(&str, &str)], v: &Value) {
     labeled(ui, label, |ui| {
         let cur = v.as_str().unwrap_or("");
-        let cur_label = opts.iter().find(|o| o.0 == cur).map(|o| o.1).unwrap_or(cur);
-        let labels: Vec<&str> = opts.iter().map(|o| o.1).collect();
+        let cur_label = opts.iter().find(|o| o.0 == cur).map(|o| choice_label(key, o.0, o.1)).unwrap_or(cur);
+        let labels: Vec<&str> = opts.iter().map(|o| choice_label(key, o.0, o.1)).collect();
         if let Some(i) = widgets::dropdown(ui, key, cur_label, &labels, 260.0)
             && let Some(o) = opts.get(i)
         {
             d.fields.insert(key.into(), json!(o.0));
         }
     });
+}
+
+/// Translate built-in appearance choices by stable ID; preserve all other engine-provided labels.
+fn choice_label<'a>(key: &str, value: &str, label: &'a str) -> &'a str {
+    let id = match (key, value) {
+        ("uiColorScheme", "modern") => "ui.scheme.modern",
+        ("uiColorScheme", "classic") => "ui.scheme.classic",
+        ("uiAccent", "coral") => "ui.accent.coral",
+        ("uiAccent", "blue") => "ui.accent.blue",
+        ("uiAccent", "violet") => "ui.accent.violet",
+        ("uiAccent", "green") => "ui.accent.green",
+        ("uiAccent", "amber") => "ui.accent.amber",
+        ("uiAccent", "pink") => "ui.accent.pink",
+        _ => return crate::i18n::t(label),
+    };
+    crate::i18n::t_id(id, label)
 }
 
 fn bool_row(ui: &mut egui::Ui, d: &mut Dialog, key: &str, label: &str) {
